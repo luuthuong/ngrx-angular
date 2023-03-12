@@ -14,7 +14,6 @@ Built with [@angular/cli](https://github.com/angular/angular-cli)
  - [angular/router](https://github.com/angular/angular) - Angular Router
  - [ngrx/db](https://github.com/ngrx/db) - RxJS powered IndexedDB for Angular apps
  - [ngrx/store-devtools](https://github.com/ngrx/store-devtools) - Instrumentation for @ngrx/store enabling time-travel debugging
- - [codewareio/ngrx-store-freeze](https://github.com/codewareio/ngrx-store-freeze) - A @ngrx/store meta reducer that prevents state from being mutated
  - [reselect](https://github.com/reactjs/reselect) - Selector library for Redux
 ### Quick start
 #### Use npm or yarn to install the dependencies.
