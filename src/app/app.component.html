@@ -1,21 +1,67 @@
 <div class="app-container">
   <div class="app-wrapper">
     <div class="app-content">
-      <nz-input-group [nzSuffix]="suffixIconSearch">
-        <input type="text" nz-input placeholder="Add your to do" />
-      </nz-input-group>
-      <ng-template #suffixIconSearch>
-        <button nz-button nzType="default" nzShape="round">
-          <span nz-icon nzType="plus" nzTheme="outline"></span>
-          ADD
-        </button>
-      </ng-template>
-      <div>
-        <nz-select >
-          <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
-          <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-          <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+      <form nz-form  [formGroup]="formTodo" (ngSubmit)="onSubmitForm()">
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Title</nz-form-label>
+          <nz-form-control [nzSm]="8" [nzXs]="24" nzErrorTip="Please type your todo">
+            <nz-input-group nzPrefixIcon="edit">
+              <input formControlName="title" nz-input placeholder="Title of todo" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24">Description</nz-form-label>
+          <nz-form-control [nzSm]="8" [nzXs]="24">
+            <nz-input-group nzPrefixIcon="edit">
+              <input formControlName="desciption" nz-input placeholder="Description of todo" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Type</nz-form-label>
+          <nz-select  formControlName="type" >
+            <nz-option *ngFor="let item of optionTodo" [nzValue]="item.value" [nzLabel]="item.name"></nz-option>
+          </nz-select>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 16, offset: 8 }">
+            <button nz-button nzType="default" nzShape="round">
+              <span nz-icon nzType="plus" nzTheme="outline"></span>
+              ADD
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+      <div nz-row>
+        <nz-form-label>Filter: </nz-form-label>
+        <nz-select [ngModel]="filtered" (ngModelChange)="filterOptionChange($event)">
+          <nz-option *ngFor="let item of optionFilter" [nzValue]="item.value" [nzLabel]="item.name"></nz-option>
         </nz-select>
+      </div>
+      <div nz-row>
+        <h2 nz-col  nz-typography class="text-header">
+          {{ 'todo list' | uppercase }}
+        </h2>
+      </div>
+      <div nz-row *ngIf="todo$">
+        <div nz-col nzSpan="22" class="list-todo-container">
+          <cdk-virtual-scroll-viewport [itemSize]="20" class="scroll-wrapper">
+            <nz-list nzItemLayout="horizontal" [nzLoading]="loading">
+              <nz-list-item *cdkVirtualFor="let item of todo$ | async">
+                <nz-list-item-meta>
+                  <nz-list-item-meta-title>
+                    <nz-ribbon nzText="Hippies" nzColor="volcano">
+                      <nz-card [nzTitle]="item.title" nzSize="small"> {{item.description}} </nz-card>
+                    </nz-ribbon>
+                  </nz-list-item-meta-title>
+                </nz-list-item-meta>
+              </nz-list-item>
+              <nz-list-empty *ngIf="data.length === 0"></nz-list-empty>
+            </nz-list>
+          </cdk-virtual-scroll-viewport>
+        </div>
       </div>
     </div>
   </div>
